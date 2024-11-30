@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { WaitlistForm } from './WaitlistForm'
 
 export function Hero() {
   return (
@@ -14,12 +13,7 @@ export function Hero() {
             <p className="text-lg sm:text-xl mb-6 text-gray-700">
               Connect with top coaches and elevate your game, no matter where you are.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto md:mx-0">
-              <Input type="email" placeholder="Enter your email" className="flex-grow" />
-              <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 w-full sm:w-auto">
-                Get Early Access
-              </Button>
-            </div>
+            <WaitlistForm buttonText="Get Early Access" className="max-w-md mx-auto md:mx-0" />
           </div>
           <div className="w-full md:w-1/2 relative mt-8 md:mt-0">
             <Image

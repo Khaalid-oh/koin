@@ -1,6 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 interface WaitlistEntry {
   timestamp: string
@@ -75,33 +79,31 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="max-w-md w-full p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <Card className="max-w-md w-full p-6">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Admin Access</h1>
             <p className="mt-2 text-gray-600">Enter password to view waitlist entries</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-            </div>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              className="w-full"
+            />
             {error && (
               <p className="text-red-500 text-sm">{error}</p>
             )}
-            <button
+            <Button
               type="submit"
-              className="w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white"
             >
               Login
-            </button>
+            </Button>
           </form>
-        </div>
+        </Card>
       </div>
     )
   }
@@ -115,57 +117,83 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Waitlist Entries</h1>
-          <div className="flex gap-4">
-            <button
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold">Waitlist Entries</h1>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+            <Button
               onClick={downloadCSV}
-              className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
+              className="bg-orange-500 hover:bg-orange-600 text-white w-full sm:w-auto"
             >
               Download CSV
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setIsAuthenticated(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+              variant="outline"
+              className="w-full sm:w-auto"
             >
               Logout
-            </button>
+            </Button>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Timestamp
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User Type
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
+          <div className="min-w-full">
+            <div className="grid grid-cols-1 sm:hidden gap-4 p-4">
               {entries.map((entry, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(entry.timestamp).toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {entry.email}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {entry.userType}
-                  </td>
-                </tr>
+                <Card key={index} className="p-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-start">
+                      <div className="text-sm font-medium text-gray-900">{entry.email}</div>
+                      <div className="text-xs text-gray-500">
+                        {new Date(entry.timestamp).toLocaleString()}
+                      </div>
+                    </div>
+                    <Badge 
+                      variant={entry.userType as 'athlete' | 'trainer'} 
+                      className="mt-2"
+                    >
+                      {entry.userType}
+                    </Badge>
+                  </div>
+                </Card>
               ))}
-            </tbody>
-          </table>
+            </div>
+
+            <table className="hidden sm:table min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Timestamp
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    User Type
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {entries.map((entry, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(entry.timestamp).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {entry.email}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <Badge variant={entry.userType as 'athlete' | 'trainer'}>
+                        {entry.userType}
+                      </Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {entries.length === 0 && (

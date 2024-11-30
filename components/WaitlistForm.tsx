@@ -24,6 +24,8 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
 
     setStatus('loading')
     try {
+      console.log('Submitting form with:', { email, userType })
+      
       const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
@@ -32,15 +34,21 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
         body: JSON.stringify({ email, userType }),
       })
 
-      if (!response.ok) throw new Error('Submission failed')
+      const data = await response.json()
+      console.log('Server response:', data)
+
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Submission failed')
+      }
       
       setStatus('success')
       setMessage('Thanks for joining! We\'ll be in touch soon.')
       setEmail('')
       setUserType(null)
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Form submission error:', error)
       setStatus('error')
-      setMessage('Something went wrong. Please try again.')
+      setMessage(error.message || 'Something went wrong. Please try again.')
     }
   }
 

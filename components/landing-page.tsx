@@ -1,7 +1,7 @@
 import { ArrowRight } from 'phosphor-react';
 import Image from 'next/image';
-import { Button } from './Button';
-import { Input } from './Input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function Home() {
   return (

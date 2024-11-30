@@ -47,14 +47,14 @@ export default function Home() {
                   Elite coaching, <span className="text-orange-500">anytime, anywhere</span>
                 </h1>
                 <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
-                  Connect with top coaches and elevate your game, no matter where you are.
+                  Connect with top trainers and elevate your game, no matter where you are.
                 </p>
                 <WaitlistForm darkMode={darkMode} buttonText="Get Early Access" className="max-w-md" />
               </div>
               <div className="md:w-1/2">
                 <Image
-                  src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                  alt="Athlete in motion"
+                  src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+                  alt="Athlete weight training"
                   width={600}
                   height={400}
                   className="rounded-lg shadow-2xl"
@@ -126,9 +126,24 @@ export default function Home() {
               © 2024 Koin. All rights reserved.
             </div>
             <div className="flex space-x-6">
-              <Link href="#" className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}>Privacy</Link>
-              <Link href="#" className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}>Terms</Link>
-              <Link href="#" className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}>Contact</Link>
+              <Link 
+                href="/privacy" 
+                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
+              >
+                Privacy
+              </Link>
+              <Link 
+                href="/terms" 
+                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
+              >
+                Terms
+              </Link>
+              <a 
+                href="mailto:GCFlabsAI@gmail.com"
+                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
+              >
+                Contact
+              </a>
             </div>
           </div>
         </div>

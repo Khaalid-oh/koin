@@ -17,8 +17,8 @@ export function Hero() {
           </div>
           <div className="w-full md:w-1/2 relative mt-8 md:mt-0">
             <Image
-              src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-              alt="Athlete in motion"
+              src="https://images.unsplash.com/photo-1579126038374-6064e9370f0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+              alt="Football player training"
               width={600}
               height={400}
               className="rounded-lg shadow-2xl object-cover w-full"

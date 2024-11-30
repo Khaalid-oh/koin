@@ -8,8 +8,6 @@ interface WaitlistEntry {
   userType: 'athlete' | 'trainer'
 }
 
-const ADMIN_PASSWORD = 'koinayowait2024!gcf@'
-
 export default function AdminPage() {
   const [entries, setEntries] = useState<WaitlistEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -33,13 +31,29 @@ export default function AdminPage() {
     }
   }, [isAuthenticated])
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true)
-      setError('')
-    } else {
-      setError('Incorrect password')
+    setError('')
+    
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setIsAuthenticated(true)
+        setPassword('')
+      } else {
+        setError('Incorrect password')
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.')
     }
   }
 

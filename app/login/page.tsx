@@ -18,6 +18,8 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
+      console.log('Submitting login with password:', password)
+      
       const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
@@ -27,13 +29,18 @@ export default function LoginPage() {
       })
 
       const data = await response.json()
+      console.log('Login response:', data)
 
-      if (data.success) {
+      if (response.ok && data.success) {
+        console.log('Login successful, redirecting...')
         router.push('/admin')
+        router.refresh()
       } else {
+        console.log('Login failed:', data.error)
         setError(data.error || 'Invalid credentials')
       }
     } catch (error) {
+      console.error('Login error:', error)
       setError('An error occurred. Please try again.')
     } finally {
       setLoading(false)
@@ -55,6 +62,7 @@ export default function LoginPage() {
             placeholder="Enter password"
             className="w-full"
             disabled={loading}
+            autoFocus
           />
           {error && (
             <p className="text-red-500 text-sm">{error}</p>

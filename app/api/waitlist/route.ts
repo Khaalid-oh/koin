@@ -124,4 +124,39 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const email = searchParams.get('email')
+
+    if (!email) {
+      return NextResponse.json(
+        { error: 'Email is required' },
+        { status: 400 }
+      )
+    }
+
+    const { error } = await supabase
+      .from('waitlist')
+      .delete()
+      .eq('email', email)
+
+    if (error) {
+      console.error('Supabase DELETE error:', error)
+      throw error
+    }
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Entry deleted successfully' 
+    })
+  } catch (error) {
+    console.error('Error deleting waitlist entry:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete entry' },
+      { status: 500 }
+    )
+  }
 } 

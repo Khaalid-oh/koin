@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { Trash2 } from 'lucide-react'
 
 interface WaitlistEntry {
   timestamp: string
@@ -18,6 +20,7 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [deleteEmail, setDeleteEmail] = useState<string | null>(null)
 
   useEffect(() => {
     // Only fetch if authenticated
@@ -75,6 +78,25 @@ export default function AdminPage() {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+  }
+
+  const handleDelete = async (email: string) => {
+    try {
+      const response = await fetch(`/api/waitlist?email=${encodeURIComponent(email)}`, {
+        method: 'DELETE',
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // Remove the entry from the local state
+        setEntries(entries.filter(entry => entry.email !== email))
+      } else {
+        console.error('Failed to delete entry:', data.error)
+      }
+    } catch (error) {
+      console.error('Error deleting entry:', error)
+    }
   }
 
   if (!isAuthenticated) {
@@ -146,9 +168,38 @@ export default function AdminPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between items-start">
                       <div className="text-sm font-medium text-gray-900">{entry.email}</div>
-                      <div className="text-xs text-gray-500">
-                        {new Date(entry.timestamp).toLocaleString()}
-                      </div>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will permanently delete the waitlist entry for {entry.email}.
+                              This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(entry.email)}
+                              className="bg-red-600 text-white hover:bg-red-700"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {new Date(entry.timestamp).toLocaleString()}
                     </div>
                     <Badge 
                       variant={entry.userType as 'athlete' | 'trainer'} 
@@ -173,6 +224,9 @@ export default function AdminPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     User Type
                   </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -188,6 +242,37 @@ export default function AdminPage() {
                       <Badge variant={entry.userType as 'athlete' | 'trainer'}>
                         {entry.userType}
                       </Badge>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will permanently delete the waitlist entry for {entry.email}.
+                              This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(entry.email)}
+                              className="bg-red-600 text-white hover:bg-red-700"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </td>
                   </tr>
                 ))}

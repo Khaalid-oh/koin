@@ -6,148 +6,81 @@ import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sun, Moon } from 'lucide-react'
 import { WaitlistForm } from '@/components/WaitlistForm'
+import { Header } from '@/components/Header'
 
-export default function Home() {
-  const [darkMode, setDarkMode] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
-
+export default function HomePage() {
   return (
-    <div className={darkMode ? 'dark' : ''}>
-      <main className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-        <header className="fixed top-0 left-0 right-0 z-50">
-          <div className={`${darkMode ? 'bg-gray-900/50 border-white/10' : 'bg-white/50 border-gray-200'} backdrop-blur-sm border-b`}>
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold text-orange-500">
-                  Koin
-                </Link>
-                <div className="flex items-center space-x-4">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setDarkMode(!darkMode)}
-                    className={darkMode ? 'text-white hover:text-orange-500' : 'text-gray-900 hover:text-orange-500'}
-                  >
-                    {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                  </Button>
-                </div>
-              </div>
+    <div className="min-h-screen bg-white">
+      <Header />
+      
+      <main>
+        {/* Hero Section */}
+        <div className="relative">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <div className="w-full h-full">
+              <img
+                src="/hero-bg.jpg"
+                alt="Athletes training"
+                className="w-full h-[600px] object-cover object-center brightness-50"
+              />
             </div>
           </div>
-        </header>
 
-        <section className="pt-32 pb-20">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0">
-              <div className="md:w-1/2 mb-10 md:mb-0">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                  Elite coaching, <span className="text-orange-500">anytime, anywhere</span>
-                </h1>
-                <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
-                  Connect with top trainers and elevate your game, no matter where you are.
-                </p>
-                <WaitlistForm darkMode={darkMode} buttonText="Get Early Access" className="max-w-md" />
-              </div>
-              <div className="md:w-1/2">
-                <Image
-                  src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                  alt="Athlete weight training"
-                  width={600}
-                  height={400}
-                  className="rounded-lg shadow-2xl"
-                />
-              </div>
+          {/* Content Overlay */}
+          <div className="relative z-10 container mx-auto px-4 pt-32 pb-24">
+            <div className="max-w-3xl mx-auto text-center text-white space-y-8">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-8">
+                Connect with top trainers and elevate your game, no matter where you are.
+              </h1>
+              <p className="text-xl sm:text-2xl text-gray-200 mb-12">
+                Experience personalized training and real-time performance tracking powered by AI.
+              </p>
+              <WaitlistForm darkMode={true} className="mt-12" />
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Features Section */}
-        <section className={`py-16 md:py-20 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100'}`}>
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">Why Choose Koin?</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { title: "Flexible", description: "Train with elite coaches on your schedule, from anywhere in the world" },
-                { title: "Affordable", description: "Access premium coaching at competitive rates with transparent pricing" },
-                { title: "Connected", description: "Stay connected with your coach and track your progress in real-time" }
-              ].map((feature, index) => (
-                <div key={index} className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-                  <h3 className="text-xl font-semibold mb-4 text-orange-500">{feature.title}</h3>
-                  <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>{feature.description}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {/* Feature 1 */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+                <h3 className="text-xl font-semibold mb-4">Real-time Analytics</h3>
+                <p className="text-gray-600">Track your performance metrics and progress in real-time with AI-powered insights.</p>
+              </div>
 
-        <section id="how-it-works" className="py-16 md:py-20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">How It Works</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-              {["Find Your Coach", "Book a Session", "Train and Improve"].map((step, index) => (
-                <div key={index} className="flex flex-col items-center text-center">
-                  <div className="bg-orange-500 rounded-full p-4 mb-4">
-                    <ArrowRight className="text-white w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{step}</h3>
-                  <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                    {index === 0
-                      ? "Browse and filter top coaches in your sport"
-                      : index === 1
-                      ? "Choose a time that works for you and book instantly"
-                      : "Get personalized coaching and track your progress"}
-                  </p>
+              {/* Feature 2 */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+                <h3 className="text-xl font-semibold mb-4">Expert Trainers</h3>
+                <p className="text-gray-600">Connect with elite trainers who understand your goals and help you achieve them.</p>
+              </div>
 
-        <section className="py-16 md:py-20">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8">Ready to elevate your game?</h2>
-            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
-              Join the waitlist to get early access and exclusive benefits when we launch.
-            </p>
-            <div className="max-w-md mx-auto">
-              <WaitlistForm darkMode={darkMode} />
+              {/* Feature 3 */}
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Secure Platform</h3>
+                <p className="text-gray-600">Your data is protected with enterprise-grade security and privacy measures.</p>
+              </div>
             </div>
           </div>
         </section>
       </main>
-
-      <footer className={`${darkMode ? 'bg-gray-900/50 border-white/10' : 'bg-gray-100 border-gray-200'} py-8 border-t`}>
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4 md:mb-0`}>
-              © 2024 Koin. All rights reserved.
-            </div>
-            <div className="flex space-x-6">
-              <Link 
-                href="/privacy" 
-                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-              >
-                Privacy
-              </Link>
-              <Link 
-                href="/terms" 
-                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-              >
-                Terms
-              </Link>
-              <a 
-                href="mailto:GCFlabsAI@gmail.com"
-                className={`text-sm ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-              >
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

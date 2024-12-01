@@ -17,6 +17,12 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
+    if (!password) {
+      setError('Please enter password')
+      setLoading(false)
+      return
+    }
+
     try {
       console.log('Submitting login with password:', password)
       

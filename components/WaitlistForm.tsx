@@ -83,7 +83,7 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
           <div className="flex items-center gap-2 text-sm">
             <Info className="w-4 h-4 text-orange-500" />
             <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
-              Select your role below
+              Select your role
             </span>
           </div>
         </div>

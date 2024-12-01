@@ -49,7 +49,7 @@ export default function Home() {
                 <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8 max-w-xl`}>
                   Connect with top trainers and elevate your game, no matter where you are.
                 </p>
-                <WaitlistForm darkMode={darkMode} buttonText="Get Early Access" className="max-w-md" />
+                <WaitlistForm darkMode={darkMode} buttonText="Join Waitlist" className="max-w-md" />
               </div>
               <div className="md:w-1/2">
                 <Image
@@ -110,7 +110,7 @@ export default function Home() {
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8">Ready to elevate your game?</h2>
             <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
-              Join the waitlist to get early access and exclusive benefits when we launch.
+              Join the waitlist to  access and exclusive benefits when we launch.
             </p>
             <div className="max-w-md mx-auto">
               <WaitlistForm darkMode={darkMode} />

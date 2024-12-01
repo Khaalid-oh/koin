@@ -13,7 +13,7 @@ export function Hero() {
             <p className="text-lg sm:text-xl mb-6 text-gray-700">
               Connect with top coaches and elevate your game, no matter where you are.
             </p>
-            <WaitlistForm buttonText="Get Early Access" className="max-w-md mx-auto md:mx-0" />
+            <WaitlistForm buttonText="Join Waitlist" className="max-w-md mx-auto md:mx-0" />
           </div>
           <div className="w-full md:w-1/2 relative mt-8 md:mt-0">
             <Image

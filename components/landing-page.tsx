@@ -24,7 +24,7 @@ export default function Home() {
                   className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                 />
                 <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
-                  Get Early Access
+                  Join Waitlist
                 </Button>
               </div>
             </div>

@@ -47,26 +47,30 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth_token')?.value
 
     if (!token) {
-      console.log('No auth token found, redirecting to login')
-      return NextResponse.redirect(new URL('/login', request.url))
+      console.log('[Middleware] No auth token found')
+      // Instead of redirecting, let the client handle the auth flow
+      return NextResponse.next()
     }
 
     try {
+      console.log('[Middleware] Verifying token...')
       const payload = await verifyAuth(token)
       
-      if (!payload || payload.role !== 'admin') {
-        console.log('Invalid role in token:', payload?.role)
-        throw new Error('Insufficient permissions')
+      if (!payload) {
+        console.log('[Middleware] Token payload is null')
+        return NextResponse.next()
+      }
+      
+      if (payload.role !== 'admin') {
+        console.log('[Middleware] Invalid role in token:', payload.role)
+        return NextResponse.next()
       }
 
-      console.log('Token verified successfully')
+      console.log('[Middleware] Token verified successfully')
       return NextResponse.next()
     } catch (error) {
-      console.error('Token verification failed:', error)
-      // Clear invalid cookie
-      const response = NextResponse.redirect(new URL('/login', request.url))
-      response.cookies.delete('auth_token')
-      return response
+      console.error('[Middleware] Token verification failed:', error)
+      return NextResponse.next()
     }
   }
 

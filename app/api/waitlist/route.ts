@@ -35,8 +35,7 @@ export async function GET() {
     const transformedEntries = entries.map(entry => ({
       timestamp: entry.timestamp,
       email: entry.email,
-      userType: entry.user_type, // Map from snake_case to camelCase
-      status: entry.status
+      userType: entry.user_type // Map from snake_case to camelCase
     }))
     
     return NextResponse.json({ entries: transformedEntries })
@@ -88,8 +87,7 @@ export async function POST(request: Request) {
       .insert({
         timestamp,
         email,
-        user_type: userType,
-        status: 'pending'
+        user_type: userType
       })
       .select()
       .single()
@@ -108,8 +106,7 @@ export async function POST(request: Request) {
     const transformedData = {
       timestamp: data.timestamp,
       email: data.email,
-      userType: data.user_type,
-      status: data.status
+      userType: data.user_type
     }
 
     return NextResponse.json({ 

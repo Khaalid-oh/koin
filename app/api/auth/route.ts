@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { SignJWT, jwtVerify } from 'jose'
+import { SignJWT } from 'jose'
 import { createHash } from 'crypto'
 
 if (!process.env.JWT_SECRET) {
@@ -104,15 +104,5 @@ export async function POST(request: Request) {
       { error: 'Authentication failed' },
       { status: 500 }
     )
-  }
-}
-
-// Helper function to verify JWT token
-export async function verifyAuth(token: string) {
-  try {
-    const verified = await jwtVerify(token, JWT_SECRET)
-    return verified.payload
-  } catch {
-    return null
   }
 } 

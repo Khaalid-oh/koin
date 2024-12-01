@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { jwtVerify } from 'jose'
+import { verifyAuth } from '@/lib/auth'
 
 // Initialize rate limiting map
 const rateLimitMap = new Map<string, { count: number; timestamp: number }>()
 const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
 const MAX_REQUESTS = 50 // Maximum requests per minute
-
-// JWT verification
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
 export async function middleware(request: NextRequest) {
   // Get client IP
@@ -55,10 +52,10 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-      const verified = await jwtVerify(token, JWT_SECRET)
+      const payload = await verifyAuth(token)
       
-      if (verified.payload.role !== 'admin') {
-        console.log('Invalid role in token:', verified.payload.role)
+      if (!payload || payload.role !== 'admin') {
+        console.log('Invalid role in token:', payload?.role)
         throw new Error('Insufficient permissions')
       }
 

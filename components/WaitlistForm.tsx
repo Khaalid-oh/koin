@@ -81,7 +81,7 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
             } placeholder:text-gray-400`}
           />
           <div className="flex items-center gap-2 text-sm">
-            <Info className="w-4 h-4 text-orange-500" />
+            <Info className="w-4 h-4 text-[#042C64]" />
             <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
               Select your role
             </span>
@@ -94,7 +94,7 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
             variant={userType === 'athlete' ? 'default' : 'outline'}
             className={`flex-1 ${
               userType === 'athlete'
-                ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                ? 'bg-[#042C64] hover:bg-[#647EA1] text-white'
                 : showError
                 ? 'border-red-300 hover:border-red-400'
                 : darkMode
@@ -114,7 +114,7 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
             variant={userType === 'trainer' ? 'default' : 'outline'}
             className={`flex-1 ${
               userType === 'trainer'
-                ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                ? 'bg-[#042C64] hover:bg-[#647EA1] text-white'
                 : showError
                 ? 'border-red-300 hover:border-red-400'
                 : darkMode
@@ -134,7 +134,7 @@ export function WaitlistForm({ darkMode = false, buttonText = "Join Waitlist", c
         type="submit"
         size="lg"
         disabled={status === 'loading'}
-        className={`w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white ${
+        className={`w-full sm:w-auto bg-[#042C64] hover:bg-[#647EA1] text-white ${
           !userType && touched ? 'opacity-50 cursor-not-allowed' : ''
         }`}
       >

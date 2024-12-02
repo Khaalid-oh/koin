@@ -3,12 +3,12 @@ import { WaitlistForm } from './WaitlistForm'
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 pt-24 pb-16 md:pt-32 md:pb-24">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#042C64]/10 to-[#042C64]/20 pt-24 pb-16 md:pt-32 md:pb-24">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center md:text-left md:flex-row">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900">
-              Elite coaching, <span className="text-orange-500">anywhere</span>
+              Elite coaching, <span className="text-[#042C64]">anywhere</span>
             </h1>
             <p className="text-lg sm:text-xl mb-6 text-gray-700">
               Connect with top coaches and elevate your game, no matter where you are.

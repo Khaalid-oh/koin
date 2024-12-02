@@ -21,7 +21,7 @@ export default function Home() {
           <div className={`${darkMode ? 'bg-gray-900/50 border-white/10' : 'bg-white/50 border-gray-200'} backdrop-blur-sm border-b`}>
             <div className="container mx-auto px-4 py-4">
               <div className="flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold text-orange-500">
+                <Link href="/" className="text-2xl font-bold text-[#042C64]">
                   Koin
                 </Link>
                 <div className="flex items-center space-x-4">
@@ -29,7 +29,7 @@ export default function Home() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setDarkMode(!darkMode)}
-                    className={darkMode ? 'text-white hover:text-orange-500' : 'text-gray-900 hover:text-orange-500'}
+                    className={darkMode ? 'text-white hover:text-[#042C64]' : 'text-gray-900 hover:text-[#042C64]'}
                   >
                     {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                   </Button>
@@ -44,7 +44,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0">
               <div className="md:w-1/2 mb-10 md:mb-0 md:pr-12">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                  Elite coaching, <span className="text-orange-500">anytime, anywhere</span>
+                  Elite coaching, <span className="text-[#042C64]">anytime, anywhere</span>
                 </h1>
                 <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8 max-w-xl`}>
                   Connect with top trainers and elevate your game, no matter where you are.
@@ -75,7 +75,7 @@ export default function Home() {
                 { title: "Connected", description: "Stay connected with your coach and track your progress in real-time" }
               ].map((feature, index) => (
                 <div key={index} className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-                  <h3 className="text-xl font-semibold mb-4 text-orange-500">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-[#042C64]">{feature.title}</h3>
                   <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>{feature.description}</p>
                 </div>
               ))}
@@ -89,7 +89,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
               {["Find Your Coach", "Book a Session", "Train and Improve"].map((step, index) => (
                 <div key={index} className="flex flex-col items-center text-center">
-                  <div className="bg-orange-500 rounded-full p-4 mb-4">
+                  <div className="bg-[#042C64] rounded-full p-4 mb-4">
                     <ArrowRight className="text-white w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{step}</h3>

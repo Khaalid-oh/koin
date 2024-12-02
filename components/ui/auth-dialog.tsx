@@ -95,7 +95,7 @@ export function AuthDialog({
           <div className="flex justify-end">
             <Button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-[#042C64] hover:bg-[#647EA1] text-white"
               disabled={loading}
             >
               {loading ? "Authenticating..." : "Continue"}

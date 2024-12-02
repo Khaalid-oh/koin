@@ -65,7 +65,7 @@ export default function Terms() {
               <h2 className="text-2xl font-semibold mb-4">6. Contact</h2>
               <p className="text-gray-600 mb-4">
                 For any questions regarding these Terms of Service, please contact us at{' '}
-                <a href="mailto:GCFlabsAI@gmail.com" className="text-orange-500 hover:text-orange-600">
+                <a href="mailto:GCFlabsAI@gmail.com" className="text-[#042C64] hover:text-[#647EA1]">
                   GCFlabsAI@gmail.com
                 </a>
               </p>

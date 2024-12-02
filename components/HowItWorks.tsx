@@ -15,8 +15,8 @@ export function HowItWorks() {
         <div className="grid gap-8 mb-12 sm:grid-cols-2 lg:grid-cols-3">
           {steps.map((step, index) => (
             <div key={index} className="text-center bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
-              <div className="bg-orange-100 rounded-full p-4 inline-block mb-4">
-                <step.icon className="text-orange-500 w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="bg-[#042C64]/10 rounded-full p-4 inline-block mb-4">
+                <step.icon className="text-[#042C64] w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <h3 className="text-lg sm:text-xl font-semibold mb-2">{step.title}</h3>
               <p className="text-gray-600">{step.description}</p>

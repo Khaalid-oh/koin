@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export function DownloadSignUp() {
   return (
-    <section className="py-16 bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+    <section className="py-16 bg-gradient-to-br from-[#042C64] to-[#647EA1] text-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Ready to elevate your game?</h2>

@@ -13,7 +13,7 @@ export function SocialProof() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">What Our Users Say</h2>
         <div className="grid gap-8 md:grid-cols-2">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-orange-50 p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
+            <div key={index} className="bg-[#042C64]/10 p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center mb-4">
                 <Image
                   src={index === 0 
@@ -31,7 +31,7 @@ export function SocialProof() {
                 </div>
               </div>
               <p className="text-gray-700 mb-4">"{testimonial.quote}"</p>
-              <div className="flex text-orange-500">
+              <div className="flex text-[#042C64]">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-current" />
                 ))}

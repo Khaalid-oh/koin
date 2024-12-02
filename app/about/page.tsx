@@ -10,7 +10,7 @@ export default function About() {
           Koin is a platform that connects athletes with elite coaches, enabling remote training and personalized coaching experiences.
         </p>
         <Link href="/">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+          <Button className="bg-[#042C64] hover:bg-[#647EA1] text-white">
             Back to Home
           </Button>
         </Link>

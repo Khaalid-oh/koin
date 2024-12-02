@@ -12,7 +12,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Elite coaching, <span className="text-orange-500">anywhere</span>
+                Elite coaching, <span className="text-[#042C64]">anywhere</span>
               </h1>
               <p className="text-xl text-gray-400 mb-8">
                 Connect with top coaches and elevate your game, no matter where you are.
@@ -23,7 +23,7 @@ export default function Home() {
                   placeholder="Enter your email" 
                   className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                 />
-                <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button size="lg" className="bg-[#042C64] hover:bg-[#647EA1] text-white">
                   Join Waitlist
                 </Button>
               </div>
@@ -60,7 +60,7 @@ export default function Home() {
             { title: "Connected", description: "Stay connected with your coach and track your progress in real-time" }
           ].map((feature, index) => (
             <div key={index} className="bg-black/50 p-6 rounded-lg border border-white/10">
-              <h3 className="text-xl font-semibold mb-4 text-orange-500">{feature.title}</h3>
+              <h3 className="text-xl font-semibold mb-4 text-[#042C64]">{feature.title}</h3>
               <p className="text-gray-400">{feature.description}</p>
             </div>
           ))}
@@ -77,7 +77,7 @@ export default function Home() {
             { title: "Train and Improve", description: "Get personalized coaching and track your progress" }
           ].map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center max-w-xs">
-              <div className="bg-orange-500 rounded-full p-4 mb-4">
+              <div className="bg-[#042C64] rounded-full p-4 mb-4">
                 <ArrowRight className="text-white w-8 h-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{step.title}</h3>

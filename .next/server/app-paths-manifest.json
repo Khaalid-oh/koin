@@ -1,6 +1,7 @@
 {
-  "/privacy/page": "app/privacy/page.js",
+  "/coach-earnings/page": "app/coach-earnings/page.js",
   "/page": "app/page.js",
-  "/about/page": "app/about/page.js",
-  "/admin/page": "app/admin/page.js"
+  "/auth/signin/page": "app/auth/signin/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

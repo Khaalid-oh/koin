@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@supabase/supabase-js": "^2.46.2",
@@ -20,6 +21,7 @@
     "lucide-react": "^0.462.0",
     "mongodb": "^6.11.0",
     "next": "14.2.16",
+    "next-auth": "^4.24.11",
     "phosphor-react": "^1.4.1",
     "react": "^18",
     "react-dom": "^18",

@@ -25,7 +25,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
         darkMode
           ? "bg-gray-900/50 border-white/10"
           : "bg-white/50 border-gray-200"
-      } backdrop-blur-sm border-b`}
+      } backdrop-blur-sm border-b fixed top-0 left-0 right-0 z-50`}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">

@@ -1,6 +1,21 @@
-import NextAuth from "next-auth"
+import NextAuth, { User } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { initializeApp } from "firebase/app"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBPS7VSt09SyFR-OOuOK_LyCe7LWAzQSQk",
+    authDomain: "koin-app-e9ae4.firebaseapp.com",
+    projectId: "koin-app-e9ae4",
+    storageBucket: "koin-app-e9ae4.firebasestorage.app",
+    messagingSenderId: "687489889596",
+    appId: "1:687489889596:web:0e076017947bcc74601a39",
+    measurementId: "G-9DNBJ34DHM"
+  };
+  
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
 
 const handler = NextAuth({
   providers: [
@@ -14,17 +29,27 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
-        // Add your credentials logic here
-        // This is where you would validate against your database
-        if (credentials?.email === "user@example.com" && credentials?.password === "password") {
+      async authorize(credentials): Promise<User | null> {
+        if (!credentials?.email || !credentials?.password) return null
+
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            credentials.email,
+            credentials.password
+          )
+          
+          const user = userCredential.user
+
           return {
-            id: "1",
-            email: credentials.email,
-            name: "Demo User",
+            id: user.uid,
+            email: user.email || '',
+            name: user.displayName || '',
           }
+        } catch (error) {
+          console.error("Firebase auth error:", error)
+          return null
         }
-        return null
       }
     }),
   ],
@@ -33,14 +58,25 @@ const handler = NextAuth({
     error: '/auth/error',
   },
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user }
+    async jwt({ token, user, account, profile, trigger, session }) {
+      if (account?.provider === "google") {
+        const searchParams = new URLSearchParams(account.access_token);
+        const role = searchParams.get("role") || "athlete"; // Default to athlete if no role specified
+        token.role = role;
+      }
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
     async session({ session, token }) {
-      session.user = token as any
-      return session
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+      }
+      return session;
     },
   },
 })
 
-export { handler as GET, handler as POST } 
+export { handler as GET, handler as POST }

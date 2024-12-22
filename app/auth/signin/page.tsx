@@ -1,16 +1,28 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { useDarkMode } from "@/app/context/DarkModeContext";
 
 export default function SignIn() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { darkMode } = useDarkMode();
+
+  useEffect(() => {
+    if (!role || !["athlete", "coach"].includes(role)) {
+      router.push("/auth/select-role");
+    }
+  }, [role, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,31 +31,59 @@ export default function SignIn() {
     const result = await signIn("credentials", {
       email,
       password,
-      callbackUrl: "/",
+      role,
+      callbackUrl: role === "coach" ? "/coach-dashboard" : "/athlete-dashboard",
       redirect: false,
     });
 
     if (result?.error) {
       setError("Invalid email or password");
     } else if (result?.ok) {
-      router.push("/");
+      router.push(result.url || "/");
     }
   };
 
+  const handleGoogleSignIn = () => {
+    signIn("google", {
+      callbackUrl: role === "coach" ? "/coach-dashboard" : "/athlete-dashboard",
+      query: { role }, // Pass role as query parameter to handle in callback
+    });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        darkMode ? "bg-gray-900" : "bg-gray-100"
+      }`}
+    >
+      <div
+        className={`max-w-md w-full space-y-8 p-8 rounded-xl shadow-lg ${
+          darkMode ? "bg-gray-800" : "bg-white"
+        }`}
+      >
         <div>
-          <h2 className="text-center text-3xl font-bold">
-            Sign in to your account
+          <Link href="/auth/select-role">
+            <Button
+              variant="ghost"
+              className={`mb-4 ${
+                darkMode ? "text-white hover:text-gray-300" : ""
+              }`}
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </Link>
+          <h2
+            className={`text-center text-3xl font-bold ${
+              darkMode ? "text-white" : ""
+            }`}
+          >
+            Sign in as {role === "coach" ? "Coach" : "Athlete"}
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div
-              className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-              role="alert"
-            >
+            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative">
               <span className="block sm:inline">{error}</span>
             </div>
           )}
@@ -69,19 +109,25 @@ export default function SignIn() {
           >
             Sign in
           </Button>
+
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or continue with
+              <span
+                className={`px-2 ${
+                  darkMode ? "bg-gray-800" : "bg-white"
+                } text-gray-500`}
+              >
+                Or sign in with
               </span>
             </div>
           </div>
+
           <Button
             type="button"
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={handleGoogleSignIn}
             className="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center space-x-2"
           >
             <svg
@@ -108,6 +154,15 @@ export default function SignIn() {
             </svg>
             <span>Sign in with Google</span>
           </Button>
+
+          <div className="text-center">
+            <Link
+              href={role === "coach" ? "/coach-signup" : "/athlete-signup"}
+              className="text-sm text-[#042C64] hover:underline"
+            >
+              Don't have an account? Sign up
+            </Link>
+          </div>
         </form>
       </div>
     </div>

@@ -234,7 +234,7 @@ export default function AthleteSignUp() {
               Create Account
             </Button>
 
-            <div className="relative my-4">
+            {/* <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
                 <div
                   className={`w-full border-t ${
@@ -287,7 +287,7 @@ export default function AthleteSignUp() {
                 />
               </svg>
               <span>Sign up with Google</span>
-            </Button>
+            </Button> */}
           </form>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -16,6 +16,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
+  const router = useRouter();
 
   const isCoachPage = pathname === "/coach-earnings";
 
@@ -25,7 +26,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
         darkMode
           ? "bg-gray-900/50 border-white/10"
           : "bg-white/50 border-gray-200"
-      } backdrop-blur-sm border-b`}
+      } backdrop-blur-sm border-b fixed top-0 left-0 right-0 z-50`}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
@@ -77,7 +78,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                 <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div className="py-1">
                     <Link
-                      href="#"
+                      href="/athlete-signup"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Join as an Athlete
@@ -101,7 +102,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
               </Button>
             ) : (
               <Button
-                onClick={() => signIn()}
+                onClick={() => router.push("/auth/select-role")}
                 className="bg-[#042C64] text-white hover:bg-[#042C64]/90"
               >
                 Sign In

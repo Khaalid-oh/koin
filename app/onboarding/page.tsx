@@ -7,33 +7,26 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useDarkMode } from "@/app/context/DarkModeContext";
 import { useToast } from "@/app/context/ToastContext";
-import Image from "next/image";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithPopup,
-} from "firebase/auth";
-import { child, push, ref, set } from "firebase/database";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { auth, db, googleProvider } from "@/firebase/client";
-import useFirebaseAuth from "@/lib/useFirebaseAuth";
 import GoogleButton from "@/components/ui/googleButton";
+import useFirebaseAuth from "@/lib/useFirebaseAuth";
 
-export default function AthleteSignUp() {
+export default function Onboarding() {
   const router = useRouter();
   const { darkMode } = useDarkMode();
   const { showToast } = useToast();
+  const { authUser } = useFirebaseAuth();
+
+  console.log(authUser);
 
   const defaultForm = {
-    fullName: "",
-    email: "",
-    password: "",
     age: "",
     gender: "",
     weight: "",
     height: "",
     sport: "",
-    role: "athlete",
   };
 
   const updateField = (field: string, value: string) =>
@@ -41,21 +34,17 @@ export default function AthleteSignUp() {
 
   const [form, setForm] = useState({ ...defaultForm });
 
+  //   const docRef = doc(db, "collectionName", "documentId");
+
+  //   await updateDoc(docRef, updatedData);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        form.email,
-        form.password
-      );
-      console.log(res);
-      const user = res.user;
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
+      await updateDoc(doc(db, "users", authUser?.uid), {
         ...form,
       });
-      showToast("Account created successfully!", "success");
+      showToast("Account updated successfully!", "success");
       setTimeout(() => {
         router.push("auth/signin?role=athlete");
       }, 2000);
@@ -67,6 +56,8 @@ export default function AthleteSignUp() {
       );
     }
   };
+
+  console.log(authUser);
 
   return (
     <div className="flex min-h-screen">
@@ -94,7 +85,7 @@ export default function AthleteSignUp() {
         >
           <div>
             <h2 className="text-3xl font-bold text-center">
-              Create Your Account
+              Complete Your Profile
             </h2>
             <p
               className={`mt-2 text-center text-sm ${
@@ -107,30 +98,6 @@ export default function AthleteSignUp() {
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
-              <Input
-                type="text"
-                placeholder="Full Name"
-                value={form.fullName}
-                onChange={(e) => updateField("fullName", e.target.value)}
-                required
-                className={darkMode ? "bg-gray-800 border-gray-700" : ""}
-              />
-              <Input
-                type="email"
-                placeholder="Email address"
-                value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
-                required
-                className={darkMode ? "bg-gray-800 border-gray-700" : ""}
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={(e) => updateField("password", e.target.value)}
-                required
-                className={darkMode ? "bg-gray-800 border-gray-700" : ""}
-              />
               <select
                 value={form.sport}
                 onChange={(e) => updateField("sport", e.target.value)}
@@ -223,29 +190,8 @@ export default function AthleteSignUp() {
               type="submit"
               className="w-full bg-[#042C64] hover:bg-[#042C64]/90 text-white"
             >
-              Create Account
+              Complete Profile
             </Button>
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div
-                  className={`w-full border-t ${
-                    darkMode ? "border-gray-700" : "border-gray-300"
-                  }`}
-                ></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span
-                  className={`px-2 ${
-                    darkMode
-                      ? "bg-gray-900/50 text-gray-400"
-                      : "bg-white text-gray-500"
-                  }`}
-                >
-                  Or sign up with
-                </span>
-              </div>
-            </div>
-            <GoogleButton />
           </form>
         </div>
       </div>

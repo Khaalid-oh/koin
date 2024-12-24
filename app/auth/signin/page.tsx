@@ -8,9 +8,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useDarkMode } from "@/app/context/DarkModeContext";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase/client";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth, db } from "@/firebase/client";
 import { useToast } from "@/app/context/ToastContext";
+import { getDocs } from "firebase/firestore";
+import { GoogleAuthProvider } from "firebase/auth/web-extension";
+import { addDoc, collection, query, where } from "firebase/firestore";
 
 function SignInContent() {
   const router = useRouter();
@@ -35,6 +42,26 @@ function SignInContent() {
       router.push("/auth/select-role");
     }
   }, [role, router]);
+
+  const googleProvider = new GoogleAuthProvider();
+  const signInWithGoogle = async () => {
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const user = res.user;
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+      const docs = await getDocs(q);
+      if (docs.docs.length === 0) {
+        await addDoc(collection(db, "users"), {
+          uid: user.uid,
+          name: user.displayName,
+          authProvider: "google",
+          email: user.email,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -19,6 +19,8 @@ if (!process.env.ADMIN_PASSWORD_HASH && process.env.NODE_ENV === 'production') {
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || 'development_hash'
 const TOKEN_EXPIRY = '2h' // 2 hours
 
+
+
 // Rate limiting for login attempts
 const loginAttempts = new Map<string, { count: number; timestamp: number }>()
 const LOGIN_WINDOW = 15 * 60 * 1000 // 15 minutes

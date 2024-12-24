@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, User, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import useFirebaseAuth from "@/lib/useFirebaseAuth";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -14,9 +15,12 @@ interface NavbarProps {
 
 export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();
+
+  const { isLoggedIn, signOut } = useFirebaseAuth();
 
   const isCoachPage = pathname === "/coach-earnings";
 
@@ -63,7 +67,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              {!session ? (
+              {!isLoggedIn ? (
                 <Button
                   variant="outline"
                   onClick={() => setIsOpen(!isOpen)}
@@ -72,20 +76,58 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                   {isCoachPage ? "Join as an Athlete" : "Join Now"}
                 </Button>
               ) : (
-                " "
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    className={
+                      darkMode
+                        ? "text-white hover:text-[#042C64]"
+                        : "text-gray-900 hover:text-[#042C64]"
+                    }
+                  >
+                    <User className="h-5 w-5" />
+                  </Button>
+                  {showProfileMenu && (
+                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                      <div className="py-1">
+                        <Link
+                          href="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setShowProfileMenu(false)}
+                        >
+                          View Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            signOut();
+                            setShowProfileMenu(false);
+                          }}
+                          className="flex w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 items-center"
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
-              {isOpen && (
+              {!isLoggedIn && isOpen && (
                 <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div className="py-1">
                     <Link
                       href="/athlete-signup"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsOpen(false)}
                     >
                       Join as an Athlete
                     </Link>
                     <Link
                       href="/coach-earnings"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsOpen(false)}
                     >
                       Join as a Coach
                     </Link>
@@ -93,13 +135,8 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                 </div>
               )}
             </div>
-            {session ? (
-              <Button
-                onClick={() => signOut()}
-                className="bg-[#042C64] text-white hover:bg-[#042C64]/90"
-              >
-                Sign Out
-              </Button>
+            {isLoggedIn ? (
+              ""
             ) : (
               <Button
                 onClick={() => router.push("/auth/select-role")}

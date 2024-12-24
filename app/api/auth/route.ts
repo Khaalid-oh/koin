@@ -2,17 +2,24 @@ import { NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
 import { createHash } from 'crypto'
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('Missing JWT_SECRET environment variable')
+// Default to a development secret if JWT_SECRET is not set
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || (process.env.NODE_ENV === 'development' ? 'development_secret' : undefined)
+)
+
+// Only throw error in production if JWT_SECRET is missing
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('Missing JWT_SECRET environment variable in production')
 }
 
-if (!process.env.ADMIN_PASSWORD_HASH) {
-  throw new Error('Missing ADMIN_PASSWORD_HASH environment variable')
+if (!process.env.ADMIN_PASSWORD_HASH && process.env.NODE_ENV === 'production') {
+  throw new Error('Missing ADMIN_PASSWORD_HASH environment variable in production')
 }
 
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || 'development_hash'
 const TOKEN_EXPIRY = '2h' // 2 hours
+
+
 
 // Rate limiting for login attempts
 const loginAttempts = new Map<string, { count: number; timestamp: number }>()

@@ -8,14 +8,43 @@ import { ArrowRight, Sun, Moon, Search } from "lucide-react";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { Input } from "@/components/ui/input";
 import { useDarkMode } from "./context/DarkModeContext";
+import { onSnapshot } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { db } from "@/firebase/client";
+import useFirebaseAuth from "@/lib/useFirebaseAuth";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { darkMode } = useDarkMode();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  useEffect(() => {
+    const studyroomsRef = collection(db, "coaches");
+    const unsubscribe = onSnapshot(studyroomsRef, (snapshot) => {
+      if (!snapshot.empty) {
+        const users: any[] = [];
+        snapshot.forEach((doc) => {
+          users.push({ ...doc.data(), id: doc.id });
+        });
+        console.log(users);
+      } else {
+        //setStudyRooms([]);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const { authUser } = useFirebaseAuth();
+
+  console.log(authUser);
 
   return (
     <div className={darkMode ? "dark" : ""}>
@@ -70,6 +99,13 @@ export default function Home() {
                   <Button
                     size="lg"
                     className="w-full bg-[#042C64] hover:bg-[#042C64]/90 text-white"
+                    onClick={() => {
+                      if (!authUser) {
+                        router.push("/auth/select-role");
+                        return;
+                      }
+                      // Add your search logic here for authenticated users
+                    }}
                   >
                     Search <Search className="w-4 h-4 ml-2" />
                   </Button>

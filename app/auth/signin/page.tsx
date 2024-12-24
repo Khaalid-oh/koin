@@ -8,15 +8,27 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useDarkMode } from "@/app/context/DarkModeContext";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase/client";
+import { useToast } from "@/app/context/ToastContext";
 
 export default function SignIn() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { darkMode } = useDarkMode();
+  const { showToast } = useToast();
+
+  const defaultForm = {
+    email: "",
+    password: "",
+  };
+
+  const [form, setForm] = useState({ ...defaultForm });
+
+  const updateField = (field: string, value: string) =>
+    setForm({ ...form, [field]: value });
 
   useEffect(() => {
     if (!role || !["athlete", "coach"].includes(role)) {
@@ -28,25 +40,27 @@ export default function SignIn() {
     e.preventDefault();
     setError("");
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      role,
-      callbackUrl: role === "coach" ? "/coach-dashboard" : "/athlete-dashboard",
-      redirect: false,
-    });
-
-    if (result?.error) {
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+      console.log(response);
+      showToast("Logged in successfully!", "success");
+      setTimeout(() => {
+        router.push("/"); // Redirect to homepage after successful login
+      }, 2000);
+    } catch (err) {
+      console.error(err);
       setError("Invalid email or password");
-    } else if (result?.ok) {
-      router.push(result.url || "/");
     }
   };
 
   const handleGoogleSignIn = () => {
     signIn("google", {
-      callbackUrl: role === "coach" ? "/coach-dashboard" : "/athlete-dashboard",
-      query: { role }, // Pass role as query parameter to handle in callback
+      callbackUrl: "/", // Redirect to homepage after Google sign in
+      query: { role },
     });
   };
 
@@ -91,15 +105,15 @@ export default function SignIn() {
             <Input
               type="email"
               placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={form.email}
+              onChange={(e) => updateField("email", e.target.value)}
               required
             />
             <Input
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={form.password}
+              onChange={(e) => updateField("password", e.target.value)}
               required
             />
           </div>

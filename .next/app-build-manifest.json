@@ -21,6 +21,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/athlete-signup/page.js"
     ],
+    "/coach-earnings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/coach-earnings/page.js"
+    ],
     "/auth/select-role/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -30,16 +35,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/auth/signin/page.js"
-    ],
-    "/coach-earnings/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/coach-earnings/page.js"
-    ],
-    "/onboarding/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/onboarding/page.js"
     ]
   }
 }

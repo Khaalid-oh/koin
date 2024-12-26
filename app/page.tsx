@@ -111,7 +111,7 @@ export default function Home() {
                   </Button>
                 </div>
               </div>
-              <div className="md:w-1/2">
+              <div className="hidden md:block md:w-1/2">
                 <div className="relative w-full h-[500px]">
                   {[
                     {

@@ -120,77 +120,83 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
 
         {/* Mobile Menu */}
         {showMobileMenu && (
-          <div className="md:hidden pt-4 pb-3 border-t border-gray-200">
-            <div className="space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block px-2 py-2 text-base hover:text-[#042C64]"
-                  onClick={() => setShowMobileMenu(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="pt-4 space-y-2">
-                {!isLoggedIn ? (
-                  <>
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setIsOpen(!isOpen);
-                        setShowMobileMenu(false);
-                      }}
-                      className="w-full border-[#042C64] text-[#042C64] hover:bg-[#042C64] hover:text-white"
-                    >
-                      {isCoachPage ? "Join as an Athlete" : "Join Now"}
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        router.push("/auth/select-role");
-                        setShowMobileMenu(false);
-                      }}
-                      className="w-full bg-[#042C64] text-white hover:bg-[#042C64]/90"
-                    >
-                      Sign In
-                    </Button>
-                  </>
-                ) : (
-                  <div className="space-y-2">
-                    <Link
-                      href="/profile"
-                      className="block px-2 py-2 text-base hover:text-[#042C64]"
-                      onClick={() => setShowMobileMenu(false)}
-                    >
-                      View Profile
-                    </Link>
-                    <button
-                      onClick={() => {
-                        signOut();
-                        setShowMobileMenu(false);
-                      }}
-                      className="w-full text-left px-2 py-2 text-base hover:text-[#042C64] flex items-center"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-                <Button
-                  variant="ghost"
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="w-full justify-start"
-                >
-                  {darkMode ? (
+          <div
+            className={`md:hidden pt-4 pb-3 border-t border-gray-200 absolute h-screen top-full left-0 right-0 ${
+              darkMode ? "bg-gray-900" : "bg-white"
+            } shadow-lg`}
+          >
+            <div className="container mx-auto px-4">
+              <div className="space-y-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block px-2 py-2 text-base hover:text-[#042C64]"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <div className="pt-4 space-y-2">
+                  {!isLoggedIn ? (
                     <>
-                      <Sun className="h-5 w-5 mr-2" /> Light Mode
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setIsOpen(!isOpen);
+                          setShowMobileMenu(false);
+                        }}
+                        className="w-full border-[#042C64] text-[#042C64] hover:bg-[#042C64] hover:text-white"
+                      >
+                        {isCoachPage ? "Join as an Athlete" : "Join Now"}
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          router.push("/auth/select-role");
+                          setShowMobileMenu(false);
+                        }}
+                        className="w-full bg-[#042C64] text-white hover:bg-[#042C64]/90"
+                      >
+                        Sign In
+                      </Button>
                     </>
                   ) : (
-                    <>
-                      <Moon className="h-5 w-5 mr-2" /> Dark Mode
-                    </>
+                    <div className="space-y-2">
+                      <Link
+                        href="/profile"
+                        className="block px-2 py-2 text-base hover:text-[#042C64]"
+                        onClick={() => setShowMobileMenu(false)}
+                      >
+                        View Profile
+                      </Link>
+                      <button
+                        onClick={() => {
+                          signOut();
+                          setShowMobileMenu(false);
+                        }}
+                        className="w-full text-left px-2 py-2 text-base hover:text-[#042C64] flex items-center"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </button>
+                    </div>
                   )}
-                </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="flex w-full justify-center bg-gray-100"
+                  >
+                    {darkMode ? (
+                      <>
+                        <Sun className="h-5 w-5 mr-2" /> Light Mode
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="h-5 w-5 mr-2" /> Dark Mode
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

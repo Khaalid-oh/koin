@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { auth } from "@/firebase/client";
+import { auth, googleProvider } from "@/firebase/client";
+import { useToast } from "@/app/context/ToastContext";
 
 import {
   onAuthStateChanged as _onAuthStateChanged,
   signOut as _signOut,
+  signInWithPopup,
 } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const formatAuthUser = (user: any) => ({
   uid: user.uid,
@@ -12,7 +15,9 @@ const formatAuthUser = (user: any) => ({
 });
 
 export default function useFirebaseAuth() {
-  const [authUser, setAuthUser] = useState(null);
+  const router = useRouter();
+  //const { showToast } = useToast();
+  const [authUser, setAuthUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const clear = () => {
     setAuthUser(null);

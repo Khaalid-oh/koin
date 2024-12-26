@@ -1,8 +1,7 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/page": "app/page.js",
-  "/auth/signin/page": "app/auth/signin/page.js",
-  "/athlete-signup/page": "app/athlete-signup/page.js",
+  "/plans/page": "app/plans/page.js",
+  "/coach-earnings/page": "app/coach-earnings/page.js",
+  "/contact/page": "app/contact/page.js",
   "/auth/select-role/page": "app/auth/select-role/page.js"
 }

@@ -14,6 +14,13 @@ import { db } from "@/firebase/client";
 import useFirebaseAuth from "@/lib/useFirebaseAuth";
 import { useRouter } from "next/navigation";
 
+import Image1 from "@/public/images/slide-1.jpeg";
+import Image2 from "@/public/images/slide-2.jpeg";
+import Image3 from "@/public/images/slide-3.jpeg";
+import Image4 from "@/public/images/slide-4.jpeg";
+
+const sliderImages = [Image1, Image2, Image3, Image4];
+
 export default function Home() {
   const { darkMode } = useDarkMode();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -45,6 +52,45 @@ export default function Home() {
   const { authUser } = useFirebaseAuth();
 
   console.log(authUser);
+
+  const handleSearch = () => {
+    if (!authUser) {
+      router.push("/auth/select-role");
+      return;
+    }
+
+    const locationInput = document.querySelector(
+      'input[placeholder="Phoenix, Texas"]'
+    ) as HTMLInputElement;
+    const sportSelect = document.querySelector(
+      'select[aria-label="Select sport type"]'
+    ) as HTMLSelectElement;
+    const dateInput = document.querySelector(
+      'input[type="date"]'
+    ) as HTMLInputElement;
+    const timeInput = document.querySelector(
+      'input[type="time"]'
+    ) as HTMLInputElement;
+
+    if (
+      !locationInput?.value ||
+      !sportSelect?.value ||
+      !dateInput?.value ||
+      !timeInput?.value
+    ) {
+      showToast("Please fill in all fields", "error");
+      return;
+    }
+
+    const searchParams = new URLSearchParams({
+      location: locationInput.value,
+      distance: sportSelect.value,
+      date: dateInput.value,
+      time: timeInput.value,
+    });
+
+    router.push(`/search/coaches?${searchParams.toString()}`);
+  };
 
   return (
     <div className={darkMode ? "dark" : ""}>
@@ -88,24 +134,18 @@ export default function Home() {
                     <div className="flex gap-2">
                       <Input
                         type="date"
-                        className="w-full bg-white border-gray-300 text-black focus:ring-[#042C64] focus:border-[#042C64] focus-visible:ring-[#042C64]"
+                        className="w-full bg-white border-gray-300 text-gray-600 focus:ring-[#042C64] focus:border-[#042C64] focus-visible:ring-[#042C64]"
                       />
                       <Input
                         type="time"
-                        className="w-full bg-white border-gray-300 text-black focus:ring-[#042C64] focus:border-[#042C64] focus-visible:ring-[#042C64]"
+                        className="w-full bg-white border-gray-300 text-gray-600 focus:ring-[#042C64] focus:border-[#042C64] focus-visible:ring-[#042C64]"
                       />
                     </div>
                   </div>
                   <Button
                     size="lg"
                     className="w-full bg-[#042C64] hover:bg-[#042C64]/90 text-white"
-                    onClick={() => {
-                      if (!authUser) {
-                        router.push("/auth/select-role");
-                        return;
-                      }
-                      // Add your search logic here for authenticated users
-                    }}
+                    onClick={handleSearch}
                   >
                     Search <Search className="w-4 h-4 ml-2" />
                   </Button>
@@ -113,32 +153,11 @@ export default function Home() {
               </div>
               <div className="hidden md:block md:w-1/2">
                 <div className="relative w-full h-[500px]">
-                  {[
-                    {
-                      src: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
-                      alt: "Woman with weights training",
-                    },
-                    {
-                      src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                      alt: "Woman with weights training",
-                    },
-                    {
-                      src: "https://images.unsplash.com/photo-1450121982620-84a745035fa8?q=80&w=3370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                      alt: "Man training with football",
-                    },
-                    {
-                      src: "https://images.unsplash.com/photo-1508355588587-46f3cdb5da07?q=80&w=3274&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                      alt: "Man training basketball",
-                    },
-                    {
-                      src: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                      alt: "Man doing strength training",
-                    },
-                  ].map((image, index) => (
+                  {sliderImages.map((image, index) => (
                     <Image
                       key={index}
-                      src={image.src}
-                      alt={image.alt}
+                      src={image}
+                      alt="slider"
                       fill
                       className={`rounded-lg shadow-2xl object-cover transition-opacity duration-1000 absolute top-0 left-0
                         ${index === 0 ? "opacity-100" : "opacity-0"}`}
@@ -527,4 +546,7 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+function showToast(arg0: string, arg1: string) {
+  throw new Error("Function not implemented.");
 }

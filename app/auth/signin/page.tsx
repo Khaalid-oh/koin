@@ -8,12 +8,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useDarkMode } from "@/app/context/DarkModeContext";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
-import { auth, db } from "@/firebase/client";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, db, signInWithGooglePopup } from "@/firebase/client";
 import { useToast } from "@/app/context/ToastContext";
 import { getDocs } from "firebase/firestore";
 import { GoogleAuthProvider } from "firebase/auth/web-extension";
@@ -44,9 +40,10 @@ function SignInContent() {
   }, [role, router]);
 
   const googleProvider = new GoogleAuthProvider();
+
   const signInWithGoogle = async () => {
     try {
-      const res = await signInWithPopup(auth, googleProvider);
+      const res = await signInWithGooglePopup();
       const user = res.user;
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
       const docs = await getDocs(q);
@@ -56,10 +53,14 @@ function SignInContent() {
           name: user.displayName,
           authProvider: "google",
           email: user.email,
+          role: role,
         });
       }
+      showToast("Signed in successfully!", "success");
+      router.push("/");
     } catch (err) {
       console.error(err);
+      showToast("Failed to sign in with Google", "error");
     }
   };
 
@@ -84,12 +85,12 @@ function SignInContent() {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn("google", {
-      callbackUrl: "/", // Redirect to homepage after Google sign in
-      query: { role },
-    });
-  };
+  // const handleGoogleSignIn = () => {
+  //   signIn("google", {
+  //     callbackUrl: "/", // Redirect to homepage after Google sign in
+  //     query: { role },
+  //   });
+  // };
 
   return (
     <div
@@ -168,7 +169,7 @@ function SignInContent() {
 
           <Button
             type="button"
-            onClick={handleGoogleSignIn}
+            onClick={signInWithGoogle}
             className="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center space-x-2"
           >
             <svg

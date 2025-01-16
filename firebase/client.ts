@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBDbnZ1Y0rHHs72hUeXOZhKY9FZky3pWO4",
@@ -14,7 +14,6 @@ const firebaseConfig = {
   measurementId: "G-Y11F65QYH7"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 export { db};
@@ -22,3 +21,9 @@ export { db};
 export const auth = getAuth(app);
 
 export const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({   
+  prompt : "select_account "
+});
+
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);

@@ -13,6 +13,7 @@ import { collection } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import useFirebaseAuth from "@/lib/useFirebaseAuth";
 import { useRouter } from "next/navigation";
+import { LocationAutocomplete } from "@/components/LocationAutocomplete";
 
 import Image1 from "@/public/images/slide-1.jpeg";
 import Image2 from "@/public/images/slide-2.jpeg";
@@ -25,6 +26,11 @@ export default function Home() {
   const { darkMode } = useDarkMode();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const router = useRouter();
+  const [selectedLocation, setSelectedLocation] = useState<{
+    address: string;
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -59,9 +65,11 @@ export default function Home() {
       return;
     }
 
-    const locationInput = document.querySelector(
-      'input[placeholder="Phoenix, Texas"]'
-    ) as HTMLInputElement;
+    if (!selectedLocation) {
+      showToast("Please select a location", "error");
+      return;
+    }
+
     const sportSelect = document.querySelector(
       'select[aria-label="Select sport type"]'
     ) as HTMLSelectElement;
@@ -72,18 +80,15 @@ export default function Home() {
       'input[type="time"]'
     ) as HTMLInputElement;
 
-    if (
-      !locationInput?.value ||
-      !sportSelect?.value ||
-      !dateInput?.value ||
-      !timeInput?.value
-    ) {
+    if (!sportSelect?.value || !dateInput?.value || !timeInput?.value) {
       showToast("Please fill in all fields", "error");
       return;
     }
 
     const searchParams = new URLSearchParams({
-      location: locationInput.value,
+      location: selectedLocation.address,
+      latitude: selectedLocation.lat.toString(),
+      longitude: selectedLocation.lng.toString(),
       distance: sportSelect.value,
       date: dateInput.value,
       time: timeInput.value,
@@ -117,9 +122,8 @@ export default function Home() {
                 </p>
                 <div className="max-w-md space-y-6">
                   <div className="flex flex-col space-y-4">
-                    <Input
-                      type="text"
-                      placeholder="Phoenix, Texas"
+                    <LocationAutocomplete
+                      onLocationSelect={setSelectedLocation}
                       className="w-full bg-white border-gray-300 text-black focus:ring-[#042C64] focus:border-[#042C64] focus-visible:ring-[#042C64]"
                     />
                     <select
@@ -479,7 +483,7 @@ export default function Home() {
                   darkMode ? "text-gray-400" : "text-gray-600"
                 }`}
               >
-                Can’t find the answer you’re looking for? Please chat to our
+                Can't find the answer you're looking for? Please chat to our
                 friendly team.
               </p>
               <a

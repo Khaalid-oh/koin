@@ -1,5 +1,5 @@
 {
-  "/auth/select-role/page": "app/auth/select-role/page.js",
   "/auth/signin/page": "app/auth/signin/page.js",
+  "/auth/select-role/page": "app/auth/select-role/page.js",
   "/page": "app/page.js"
 }

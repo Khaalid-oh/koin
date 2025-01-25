@@ -46,7 +46,7 @@ export default function Onboarding() {
       });
       showToast("Account updated successfully!", "success");
       setTimeout(() => {
-        router.push("auth/signin?role=athlete");
+        router.push("/");
       }, 2000);
     } catch (err: unknown) {
       console.error(err);

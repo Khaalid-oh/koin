@@ -37,8 +37,8 @@ export default function Home() {
   }, [darkMode]);
 
   useEffect(() => {
-    const studyroomsRef = collection(db, "coaches");
-    const unsubscribe = onSnapshot(studyroomsRef, (snapshot) => {
+    const coachesRef = collection(db, "coaches");
+    const unsubscribe = onSnapshot(coachesRef, (snapshot) => {
       if (!snapshot.empty) {
         const users: any[] = [];
         snapshot.forEach((doc) => {
@@ -46,7 +46,7 @@ export default function Home() {
         });
         console.log(users);
       } else {
-        //setStudyRooms([]);
+        console.log("No coaches found");
       }
     });
 

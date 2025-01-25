@@ -23,11 +23,11 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
 
   const { isLoggedIn, signOut } = useFirebaseAuth();
 
-  const isCoachPage = pathname === "/coach-earnings";
+  const isCoachPage = pathname === "/coach";
 
   const navLinks = [
     { href: "/", label: "Find a coach" },
-    { href: "/coach-earnings", label: "Coach with us" },
+    { href: "/coach", label: "Coach with us" },
     { href: "/plans", label: "Plans" },
     { href: "/contact", label: "Contact us" },
   ];
@@ -239,7 +239,7 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                 Join as an Athlete
               </Link>
               <Link
-                href="/coach-earnings"
+                href="/coach"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 onClick={() => setIsOpen(false)}
               >

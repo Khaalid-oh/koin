@@ -45,9 +45,13 @@ function SignInContent() {
     try {
       const res = await signInWithGooglePopup();
       const user = res.user;
+
+      // Check if user exists and their role
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
       const docs = await getDocs(q);
+
       if (docs.docs.length === 0) {
+        // New user - create account with selected role
         await addDoc(collection(db, "users"), {
           uid: user.uid,
           name: user.displayName,
@@ -55,7 +59,19 @@ function SignInContent() {
           email: user.email,
           role: role,
         });
+      } else {
+        // Existing user - verify role
+        const userData = docs.docs[0].data();
+        if (role === "coach" && userData.role !== "coach") {
+          showToast("This account is not registered as a coach", "error");
+          return;
+        }
+        if (role === "athlete" && userData.role !== "athlete") {
+          showToast("This account is not registered as an athlete", "error");
+          return;
+        }
       }
+
       showToast("Signed in successfully!", "success");
       router.push("/");
     } catch (err) {
@@ -74,10 +90,27 @@ function SignInContent() {
         form.email,
         form.password
       );
-      console.log(response);
+
+      // Check user's role in Firestore
+      const userDoc = await getDocs(
+        query(collection(db, "users"), where("uid", "==", response.user.uid))
+      );
+
+      const userData = userDoc.docs[0]?.data();
+
+      if (role === "coach" && userData?.role !== "coach") {
+        setError("This account is not registered as a coach");
+        return;
+      }
+
+      if (role === "athlete" && userData?.role !== "athlete") {
+        setError("This account is not registered as an athlete");
+        return;
+      }
+
       showToast("Logged in successfully!", "success");
       setTimeout(() => {
-        router.push("/"); // Redirect to homepage after successful login
+        router.push("/");
       }, 2000);
     } catch (err) {
       console.error(err);

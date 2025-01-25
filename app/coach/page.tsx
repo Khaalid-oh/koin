@@ -7,6 +7,7 @@ import { ArrowRight, Calendar, DollarSign, UserCircle } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { useDarkMode } from "../context/DarkModeContext";
+import { useRouter } from "next/navigation";
 
 export default function CoachEarningsPage() {
   const [sessions, setSessions] = useState(10);
@@ -15,6 +16,8 @@ export default function CoachEarningsPage() {
   const { darkMode } = useDarkMode();
 
   const weeklyEarnings = sessions * rate;
+
+  const router = useRouter();
 
   return (
     <div className={darkMode ? "dark" : ""}>
@@ -102,7 +105,10 @@ export default function CoachEarningsPage() {
                       </div>
                     </div>
                   </div>
-                  <Button className="w-full bg-[#042C64] text-white hover:bg-[#042C64]/90 text-lg px-8 py-6">
+                  <Button
+                    className="w-full bg-[#042C64] text-white hover:bg-[#042C64]/90 text-lg px-8 py-6"
+                    onClick={() => router.push("/coach-signup")}
+                  >
                     Apply as a Coach
                   </Button>
                 </div>
@@ -124,9 +130,7 @@ export default function CoachEarningsPage() {
 
         {/* Increase Your Reach Section */}
         <section
-          className={`py-16 md:py-20 ${
-            darkMode ? "bg-gray-800" : "bg-gray-100"
-          }`}
+          className={`py-16 md:py-20 ${darkMode ? "bg-gray-800" : "bg-white"}`}
         >
           <div className="container mx-auto px-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl text-[#042C64] font-bold text-center mb-12">

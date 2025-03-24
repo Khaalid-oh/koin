@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, User, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -42,8 +43,14 @@ export function Navbar({ darkMode, setDarkMode }: NavbarProps) {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-[#042C64]">
-            Koin
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/logo.png"
+              alt="Koin Logo"
+              width={100}
+              height={40}
+              className="object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}

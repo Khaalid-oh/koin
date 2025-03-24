@@ -26,6 +26,9 @@ function SignInContent() {
   const defaultForm = {
     email: "",
     password: "",
+    role: role,
+    uid: "",
+    name: "",
   };
 
   const [form, setForm] = useState({ ...defaultForm });

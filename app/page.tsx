@@ -108,7 +108,7 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0">
               <div className="md:w-1/2 mb-10 md:mb-0 md:pr-12">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                <h1 className="text-3xl text-[#8b1737] sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                   Elite coaching,{" "}
                   <span className="text-[#042C64]">anytime, anywhere</span>
                 </h1>
